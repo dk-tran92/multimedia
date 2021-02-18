@@ -1,2 +1,25 @@
 http://bein-tr-live.ercdn.com/connect/bein/bein_sports_01_bo/bein_sports_01.isml/playlist.m3u8?st=ZMdvXDZRbMaQW2VA8yozsg&e=1604412958&userid=ed59516372
 
+
+
+tizen.filesystem.listStorages(function(storages){
+			for (var i = 0; i < storages.length; i++){
+				if(storages[i].type == "EXTERNAL" && storages[i].state == "MOUNTED"){
+					tizen.filesystem.resolve(storages[i].label, function(removableStorage){
+						removableStorage.listFiles(function(files){
+								for(i = 0; i < files.length; i++) {
+									message.innerHTML += "file/Folder list ["+ i + "] : "+ files[i].path+ files[i].name	+  "<br/>";
+								}
+							}, function(error){
+								message.innerHTML = "Error code : " + error.code + ", message:" + error.message;
+							});			
+						}, function(error){
+							message.innerHTML = "Error code : " + error.code + ", message:" + error.message;
+						});
+					
+					break;
+				}
+			}
+		}, function(error){
+			message.innerHTML = "Error code : " + error.code + ", message:" + error.message;
+		});
